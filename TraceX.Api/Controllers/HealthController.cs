@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TraceX.Api.Controllers;
 
@@ -11,6 +11,8 @@ public class HealthController : ControllerBase
     [HttpGet]
     public IActionResult CheckStatus()
     {
+
+        //throw new Exception("Error de prueba");
         return Ok(new
         {
             Message = "TraceX API Operativa",
@@ -18,7 +20,5 @@ public class HealthController : ControllerBase
             Timestamp = DateTime.UtcNow
         });
     }
-    
-    // [HttpPost]
 }
 
