@@ -1,6 +1,17 @@
-@TraceX.Api_HostAddress = http://localhost:5012
+﻿@TraceX.Api_HostAddress = https://localhost:7028
 
 GET {{TraceX.Api_HostAddress}}/api/Machines/
 Accept: application/json
+
+###
+GET {{TraceX.Api_HostAddress}}/api/Machines/11
+Accept: application/json
+
+GET {{TraceX.Api_HostAddress}}/api/machines
+
+###
+
+@id=0
+DELETE {{TraceX.Api_HostAddress}}/api/Machines/{{id}}
 
 ###

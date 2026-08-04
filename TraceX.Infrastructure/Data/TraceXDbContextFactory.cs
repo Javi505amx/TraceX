@@ -17,7 +17,7 @@ public class TraceXDbContextFactory : IDesignTimeDbContextFactory<TraceXDbContex
             .Build();
 
         var optionsBuilder = new DbContextOptionsBuilder<TraceXDbContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.GetConnectionString("TraceXDbConnection");
 
         optionsBuilder.UseSqlServer(connectionString);
 
