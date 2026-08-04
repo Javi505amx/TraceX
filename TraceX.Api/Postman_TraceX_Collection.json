@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "TraceX.Api - Machines",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Machines",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5012/api/machines",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5012",
+          "path": ["api", "machines"]
+        }
+      }
+    },
+    {
+      "name": "Get Machine By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5012/api/machines/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5012",
+          "path": ["api", "machines", "1"]
+        }
+      }
+    },
+    {
+      "name": "Create Machine",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"serialNumber\": \"SMT123456\",\n  \"productionLine\": \"Line01\",\n  \"status\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5012/api/machines",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5012",
+          "path": ["api", "machines"]
+        }
+      }
+    },
+    {
+      "name": "Update Machine",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"serialNumber\": \"SMT123456\",\n  \"productionLine\": \"Line01Updated\",\n  \"status\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5012/api/machines/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5012",
+          "path": ["api", "machines", "1"]
+        }
+      }
+    },
+    {
+      "name": "Delete Machine",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5012/api/machines/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5012",
+          "path": ["api", "machines", "1"]
+        }
+      }
+    }
+  ]
+}

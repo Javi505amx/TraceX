@@ -1,0 +1,62 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/.idea.TraceX.iml
+/modules.xml
+/projectSettingsUpdater.xml
+/contentModel.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Ignored default folder with query files
+/queries/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# --- Directorios de Compilación (¡Lo más importante!) ---
+[Bb]in/
+[Oo]bj/
+
+# --- Visual Studio y Configuración de Usuario ---
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- NuGet Packages ---
+# Es mejor que cada quien restaure los paquetes al compilar
+packages/
+*.nupkg
+
+# --- Archivos Temporales y Logs ---
+*.log
+[Tt]emp/
+[Tt]mp/
+#FeederSetup/
+#UploadFile/
+#Files/
+.xlsx
+.xlsm
+.xls
+
+# --- Archivos de Sistema (Windows/Mac) ---
+Thumbs.db
+.DS_Store
+
+# --- ASP.NET Web Forms Específico ---
+# A veces App_Data tiene bases de datos locales o logs que no quieres subir
+App_Data/
+
+# Si usas Crystal Reports u otras herramientas que generan reportes temporales
+*.rpt
+
+# --- Secretos y Configuración Local ---
+# Si tienes configs con claves, agrégalas aquí (ej. Web.Local.config)
+# *.Release.config
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db

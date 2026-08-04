@@ -1,0 +1,6 @@
+@TraceX.Api_HostAddress = http://localhost:5012
+
+GET {{TraceX.Api_HostAddress}}/api/Machines/
+Accept: application/json
+
+###
