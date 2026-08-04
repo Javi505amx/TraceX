@@ -44,11 +44,6 @@ namespace TraceX.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(Machine id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> DeleteAsync(int id)
         {
             return await _context.Machines
