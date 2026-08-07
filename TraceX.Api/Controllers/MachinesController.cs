@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using TraceX.Application.DTOs;
+using Microsoft.EntityFrameworkCore;
+using TraceX.Application.DTOs.Machines;
 using TraceX.Domain.Interfaces;
 using Machine = TraceX.Domain.Entities.Machine;
 
@@ -30,7 +31,9 @@ namespace TraceX.Api.Controllers
 
         //.NET inyectará la implementación real (MAchineRepository) aquií de forma automática.
 
-        public MachinesController(IMachineRepository machineRepository, IValidator<CreateMachineDto> createValidator, IValidator<UpdateMachineDto> updateValidator)
+        public MachinesController(IMachineRepository machineRepository,
+                                IValidator<CreateMachineDto> createValidator,
+                                IValidator<UpdateMachineDto> updateValidator)
         {
             _machineRepository = machineRepository;
             _createValidator = createValidator;
@@ -41,17 +44,7 @@ namespace TraceX.Api.Controllers
         public async Task<ActionResult<List<MachineDto>>> GetMachines()
         {
             var machines = await _machineRepository.GetAllAsync();
-
             var machineDtos = machines.Adapt<List<MachineDto>>();
-
-            //var machineDtos = machines.Select(m => new MachineDto
-            //{
-            //    Id = m.Id,
-            //    SerialNumber = m.SerialNumber,
-            //    ProductionLine = m.ProductionLine,
-            //    Status = m.Status
-            //}).ToList();
-
             return Ok(machineDtos); // <-- Envuelve tu lista en un HTTP 200 OK explícito
         }
 
@@ -61,58 +54,30 @@ namespace TraceX.Api.Controllers
         public async Task<ActionResult<MachineDto>> GetMachineById(int id)
         {
             var machine = await _machineRepository.GetByIdAsync(id);
-
             if (machine == null) return NotFound();
 
             var machineDto = machine.Adapt<MachineDto>();
-
-            //var machineDto = new MachineDto
-            //{
-            //    Id = machine.Id,
-            //    SerialNumber = machine.SerialNumber,
-            //    ProductionLine = machine.ProductionLine,
-            //    Status = machine.Status
-            //};
 
             return Ok(machineDto);
         }
 
         [HttpPost] // POST: api/machines
-        public async Task<ActionResult<MachineDto>> CreateMachine(CreateMachineDto dto)
+        public async Task<ActionResult<MachineDto>> CreateMachine(CreateMachineDto dto, CancellationToken cancellationToken)
         {
-            if (dto == null)
-            {
-                return BadRequest("Machine data is required.");
-            }
+            // check: this null reference
+            if (dto == null) return BadRequest("Machine data dto is required.");
 
             var validationResult = await _createValidator.ValidateAsync(dto);
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.ToDictionary());
-            }
+            if (!validationResult.IsValid) return BadRequest(validationResult.ToDictionary());
 
+            var existingMachine = await _machineRepository.GetBySerialNumberAsync(dto.SerialNumber);
+            if (existingMachine != null)
+                return Conflict(new { Message = "A machine with this Serial Number already exists." });
 
             // Mapear el DTO de entrada de la entidad de dominio
             var machineEntity = dto.Adapt<Machine>();
-            //var machineEntity = new Machine
-            //{
-            //    SerialNumber = dto.SerialNumber,
-            //    ProductionLine = dto.ProductionLine,
-            //    Status = dto.Status
-            //};
-            // Guardamos la máquina usando el repositorio
-            var createdMachine = await _machineRepository.AddAsync(machineEntity);
-
-
+            var createdMachine = await _machineRepository.AddAsync(machineEntity, cancellationToken);
             var responseDto = createdMachine.Adapt<MachineDto>();
-
-            //var responseDto = new MachineDto
-            //{
-            //    Id = createdMachine.Id,
-            //    SerialNumber = createdMachine.SerialNumber,
-            //    ProductionLine = createdMachine.ProductionLine,
-            //    Status = createdMachine.Status
-            //};
 
             return CreatedAtAction(
                 nameof(GetMachineById),
@@ -123,51 +88,40 @@ namespace TraceX.Api.Controllers
         [HttpPut("{id:int}")] // PUT: api/machines/1
         public async Task<ActionResult> UpdateMachine(int id, UpdateMachineDto dto)
         {
-            if (dto == null)
+            try
             {
-                return BadRequest("Machine info needed for update");
+
+                if (dto == null) return BadRequest("Machine info needed for update");
+
+                var validationResult = await _updateValidator.ValidateAsync(dto);
+                if (!validationResult.IsValid) return BadRequest(validationResult.ToDictionary());
+
+                var existingMachine = await _machineRepository.GetByIdAsync(id);
+                if (existingMachine == null) return NotFound();
+
+                dto.Adapt(existingMachine);
+
+                await _machineRepository.UpdateAsync(existingMachine);
+                return NoContent();
             }
-
-            var validationResult = await _updateValidator.ValidateAsync(dto);
-
-            if (!validationResult.IsValid)
+            catch (DbUpdateConcurrencyException)
             {
-                return BadRequest(validationResult.ToDictionary());
+                return Conflict(new
+                {
+                    message = "El registro fue modificado por otro usuario o proceso. Por favor, recarga los datos e intenta de nuevo. "
+                    // TODO: translate this message Exception to english
+                });
             }
-            // Mapeamos DTO + Id -> Entity de Dominio
-            //var machineToUpdate = new Machine
-            //{
-            //    Id = id,
-            //    SerialNumber = dto.SerialNumber,
-            //    ProductionLine = dto.ProductionLine,
-            //    Status = dto.Status
-            //};
-
-            var machineToUpdate = dto.Adapt<Machine>();
-
-            machineToUpdate.Id = id;
-
-            var result = await _machineRepository.UpdateAsync(machineToUpdate);
-
-            if (result == 0)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
 
         }
 
         [HttpDelete("{id:int}")] // DELETE: api/machines/1
         public async Task<ActionResult> DeleteMachine(int id)
         {
-            var result = await _machineRepository.DeleteAsync(id);
+            var existingMachine = await _machineRepository.GetByIdAsync(id);
+            if (existingMachine == null) return NotFound();
 
-            if (result == 0)
-            {
-                return NotFound();
-            }
-
+            await _machineRepository.DeleteAsync(id);
             return NoContent();
         }
     }

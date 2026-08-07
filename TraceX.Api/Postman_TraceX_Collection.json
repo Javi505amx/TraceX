@@ -1,90 +1,303 @@
 {
   "info": {
-    "name": "TraceX.Api - Machines",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_postman_id": "ca3eb105-4506-453c-beab-3a8f591974c2",
+    "name": "TraceX.Api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42990377"
   },
   "item": [
     {
-      "name": "Get All Machines",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:5012/api/machines",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "5012",
-          "path": ["api", "machines"]
-        }
-      }
-    },
-    {
-      "name": "Get Machine By Id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:5012/api/machines/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "5012",
-          "path": ["api", "machines", "1"]
-        }
-      }
-    },
-    {
-      "name": "Create Machine",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"serialNumber\": \"SMT123456\",\n  \"productionLine\": \"Line01\",\n  \"status\": 1\n}"
+      "name": "Machines",
+      "item": [
+        {
+          "name": "All Machines",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/machines",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "machines"
+              ]
+            },
+            "description": "### API Endpoint: Retrieve Machines\n\nThis endpoint allows you to retrieve a list of machines from the system. It provides information about each machine, including its unique identifier, serial number, production line, and current status.\n\n#### Request\n\n- **Method**: GET\n    \n- **URL**: `http://localhost:5012/api/machines`\n    \n\nThere is no request body required for this GET request.\n\n#### Response\n\n- **Status Code**: 200 OK\n    \n- **Content-Type**: application/json\n    \n\nThe response will be a JSON array containing objects that represent the machines. Each object in the array will have the following properties:\n\n- **id** (integer): A unique identifier for the machine.\n    \n- **serialNumber** (string): The serial number of the machine.\n    \n- **productionLine** (string): The production line to which the machine belongs.\n    \n- **status** (string): The current operational status of the machine.\n    \n\n##### Example Response\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"serialNumber\": \"\",\n        \"productionLine\": \"\",\n        \"status\": \"\"\n    }\n]\n\n ```\n\nThis structure allows clients to easily parse and utilize the machine data as needed."
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:5012/api/machines",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "5012",
-          "path": ["api", "machines"]
-        }
-      }
-    },
-    {
-      "name": "Update Machine",
-      "request": {
-        "method": "PUT",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"id\": 1,\n  \"serialNumber\": \"SMT123456\",\n  \"productionLine\": \"Line01Updated\",\n  \"status\": 1\n}"
+        {
+          "name": "Machine By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/machines/16",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "machines",
+                "16"
+              ]
+            },
+            "description": "## Get Machine Details\n\nThis endpoint retrieves the details of a specific machine identified by its unique ID.\n\n### Request\n\n- **Method**: GET\n    \n- **URL**: `http://localhost:5012/api/machines/{id}`\n    \n- **Path Parameter**:\n    \n    - `id` (integer): The unique identifier of the machine you want to retrieve. In this example, the ID is `12`.\n        \n\n### Response\n\n- **Status Code**: 200 OK\n    \n- **Content-Type**: application/json\n    \n\n#### Response Structure\n\nThe response will be a JSON object containing the following fields:\n\n- `id` (integer): The unique identifier of the machine.\n    \n- `serialNumber` (string): The serial number of the machine.\n    \n- `productionLine` (string): The production line to which the machine belongs.\n    \n- `status` (string): The current status of the machine.\n    \n\n### Example Response\n\n``` json\n{\n  \"id\": 0,\n  \"serialNumber\": \"\",\n  \"productionLine\": \"\",\n  \"status\": \"\"\n}\n\n ```\n\nThis endpoint is useful for obtaining detailed information about a specific machine, which can be utilized for monitoring, reporting, or maintenance purposes."
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:5012/api/machines/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "5012",
-          "path": ["api", "machines", "1"]
+        {
+          "name": "Create Machine",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"serialNumber\": \"SMT-02\", // Fluent validation rejection\n    \"productionLine\": \"A222_222B\",\n    \"status\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5012/api/machines",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "machines"
+              ]
+            },
+            "description": "## Add Machine\n\nThis endpoint allows you to add a new machine to the system. It requires specific parameters that define the machine's characteristics.\n\n### Request\n\n**Method:** POST  \n**Endpoint:** `http://localhost:5012/api/machines`\n\n#### Request Body\n\nThe request body must be in JSON format and should include the following parameters:\n\n- **serialNumber** (string): A unique identifier for the machine. This should be a valid serial number.\n    \n- **productionLine** (string): The production line to which the machine belongs. This should represent the line's designation.\n    \n- **status** (integer): The current operational status of the machine. This is typically represented as an integer, where different values may correspond to various states (e.g., active, inactive).\n    \n\n**Example Request Body:**\n\n``` json\n{\n  \"serialNumber\": \"2222222\",\n  \"productionLine\": \"A222222B\",\n  \"status\": 1\n}\n\n ```\n\n### Response\n\nThe response will contain the following:\n\n- **Status Code:** 409 Conflict  \n    This indicates that there was a conflict while trying to add the machine, possibly due to a duplicate serial number or other validation issues.\n    \n- **Content-Type:** application/json\n    \n- **Response Body:**\n    \n    - **message** (string): A message indicating the nature of the conflict (currently empty in this case).\n        \n\n### Important Notes\n\n- Ensure that the `serialNumber` provided is unique to avoid conflicts.\n    \n- The `status` should be validated against the acceptable range of values defined in your application logic.\n    \n- A 409 status code indicates that the request was well-formed but could not be processed due to a conflict with the current state of the resource.\n    \n\nMake sure to handle the response appropriately in your application to provide feedback to the user regarding the success or failure of the machine addition."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Machine",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    // \"id\": 9,\n    //\"serialNumber\": \"ABC123testxxx\",\n    \"productionLine\": \"Line01Updated\",\n    \"status\": 2\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5012/api/machines/16",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "machines",
+                "16"
+              ]
+            },
+            "description": "## Update Machine Information\n\nThis endpoint allows you to update the details of a specific machine identified by its unique ID. The request modifies the machine's attributes such as the serial number, production line, and status.\n\n### Request\n\n- **Method**: PUT\n    \n- **URL**: `http://localhost:5012/api/machines/{id}`\n    \n\n#### Path Parameters\n\n- `id`: The unique identifier of the machine you want to update (in this case, `8`).\n    \n\n#### Request Body\n\nThe request body must be in JSON format and should include the following fields:\n\n- `serialNumber` (string): The updated serial number of the machine.\n    \n- `productionLine` (string): The updated production line where the machine operates.\n    \n- `status` (integer): The updated status of the machine, represented as an integer.\n    \n\n**Example Request Body**:\n\n``` json\n{\n    \"serialNumber\": \"ABC123testxxx\",\n    \"productionLine\": \"Line01Updated\",\n    \"status\": 2\n}\n\n ```\n\n### Response\n\n- **Status Code**: 204 No Content\n    \n- **Content-Type**: text/xml\n    \n\nThe response indicates that the update was successful and there is no content returned in the body.\n\n### Important Headers\n\nEnsure to include appropriate headers in your request, such as:\n\n- `Content-Type`: Set to `application/json` to indicate the format of the request body."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Machine",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/machines/15",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "machines",
+                "15"
+              ]
+            },
+            "description": "## DELETE /api/machines/{id}\n\nThis endpoint is used to delete a specific machine resource identified by its unique identifier (`id`). When a DELETE request is made to this endpoint, the server will attempt to remove the machine from the database.\n\n### Request Parameters\n\n- **id** (path parameter): The unique identifier of the machine to be deleted. This should be a numeric value representing the machine's ID.\n    \n\n### Response Structure\n\n- **Status Code**:\n    \n    - `204 No Content`: Indicates that the machine was successfully deleted.\n        \n    - `404 Not Found`: Indicates that the machine with the specified ID does not exist.\n        \n\n#### Example Response for 404 Not Found:\n\n``` json\n{\n  \"type\": \"\",\n  \"title\": \"\",\n  \"status\": 0,\n  \"traceId\": \"\"\n}\n\n ```\n\n### Important Notes\n\n- Ensure that the `id` provided in the request URL corresponds to an existing machine. If the machine does not exist, a `404 Not Found` response will be returned.\n    \n- This operation is irreversible; once a machine is deleted, it cannot be recovered.\n    \n\n### Usage Example\n\nTo delete a machine with ID 1, the request would look like this:\n\n```\nDELETE http://localhost:5012/api/machines/1\n\n ```\n\nIf the machine is successfully deleted, you will receive a `204 No Content` response. If the machine does not exist, you will receive a `404 Not Found` response with a problem JSON structure."
+          },
+          "response": []
         }
-      }
+      ]
     },
     {
-      "name": "Delete Machine",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:5012/api/machines/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "5012",
-          "path": ["api", "machines", "1"]
+      "name": "Products",
+      "item": [
+        {
+          "name": "All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "## GET /api/products\n\nThis endpoint retrieves a list of products from the server. It is designed to provide information about all available products in the system.\n\n### Request Parameters\n\nThis endpoint does not require any input parameters.\n\n### Response Structure\n\nOn a successful request, the server responds with a status code of `200` and a JSON array containing product objects. Each product object includes the following fields:\n\n- **id** (integer): A unique identifier for the product.\n    \n- **partNumber** (string): The part number associated with the product.\n    \n- **name** (string): The name of the product.\n    \n- **description** (string): A brief description of the product.\n    \n- **isActive** (boolean): Indicates whether the product is currently active.\n    \n\n### Example Response\n\n``` json\n[\n    {\n        \"id\": 0,\n        \"partNumber\": \"\",\n        \"name\": \"\",\n        \"description\": \"\",\n        \"isActive\": true\n    }\n]\n\n ```\n\nThis response structure allows clients to easily understand the available products and their statuses."
+          },
+          "response": []
+        },
+        {
+          "name": "Product By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "# Get Product by ID\n\nThis endpoint retrieves the details of a specific product identified by its unique ID. It is a **GET** request that allows users to access product information stored in the system.\n\n## Request\n\n- **Method**: GET\n    \n- **URL**: `http://localhost:5012/api/products/{id}`\n    \n\n### Path Parameters\n\n- `id` (integer): The unique identifier of the product you wish to retrieve. In this case, the example provided uses `1`.\n    \n\n## Response\n\nUpon a successful request, the server responds with a `200 OK` status and returns a JSON object containing the product details. The structure of the response is as follows:\n\n``` json\n{\n  \"id\": 0,\n  \"partNumber\": \"\",\n  \"name\": \"\",\n  \"description\": \"\",\n  \"isActive\": true\n}\n\n ```\n\n### Response Fields\n\n- `id` (integer): The unique identifier for the product.\n    \n- `partNumber` (string): The part number associated with the product.\n    \n- `name` (string): The name of the product.\n    \n- `description` (string): A brief description of the product.\n    \n- `isActive` (boolean): Indicates whether the product is currently active.\n    \n\n## Important Notes\n\n- Ensure that the `id` provided in the request path corresponds to an existing product in the database; otherwise, the server may return a `404 Not Found` status.\n    \n- The response fields may vary based on the product data stored in the system. Some fields may be empty if not applicable.\n    \n- This endpoint is useful for retrieving product details for display or further processing in applications."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"PartNumber\": \"MX1EUM240s670\",\r\n    \"Name\": \"EUM240S670DG\", \r\n    \"Description\": \"Driver EUM 240V ?\",\r\n    \"IsActive\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5012/api/products/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "products",
+                ""
+              ]
+            },
+            "description": "## Add Product\n\nThis endpoint allows users to add a new product to the inventory. When a product is successfully created, the server responds with a confirmation and the details of the newly created product.\n\n### Request\n\n- **Method**: POST\n    \n- **Endpoint**: `http://localhost:5012/api/products/`\n    \n- **Content-Type**: application/json\n    \n\n#### Request Body\n\nThe request body must be in JSON format and include the following parameters:\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| `PartNumber` | string | A unique identifier for the product. |\n| `Name` | string | The name of the product. |\n| `Description` | string | A brief description of the product. |\n| `IsActive` | boolean | Indicates whether the product is active or not. |\n\n**Example Request Body**:\n\n``` json\n{\n  \"PartNumber\": \"111\",\n  \"Name\": \"12\",\n  \"Description\": \"A222222B\",\n  \"IsActive\": true\n}\n\n ```\n\n### Response\n\nOn a successful request, the server will respond with a status code of `201 Created`, along with a JSON object containing the details of the created product.\n\n#### Response Structure\n\n| Key | Type | Description |\n| --- | --- | --- |\n| `id` | integer | The unique identifier assigned to the product by the server. |\n| `partNumber` | string | The part number of the product. |\n| `name` | string | The name of the product. |\n| `description` | string | The description of the product. |\n| `isActive` | boolean | The active status of the product. |\n\n**Example Response**:\n\n``` json\n{\n  \"id\": 0,\n  \"partNumber\": \"\",\n  \"name\": \"\",\n  \"description\": \"\",\n  \"isActive\": true\n}\n\n ```\n\n### Important Notes\n\n- Ensure that the `PartNumber` is unique to avoid conflicts with existing products.\n    \n- The `id` in the response will be generated by the server and may not reflect the `PartNumber` provided in the request.\n    \n- The `IsActive` parameter is crucial for determining the product's availability in the inventory.\n    \n\nThis endpoint is essential for managing product entries within the system, allowing for efficient inventory control."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"Name\": \"MX2CDCCAQ380QS\", // not null\r\n    \"Description\": \"SCARD 380\", // null - optional\r\n    \"IsActive\": false // null - optional\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5012/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/products/11",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "products",
+                "11"
+              ]
+            },
+            "description": "### DELETE /api/products/{id}\n\nThis endpoint is used to delete a product from the inventory based on the provided product ID.\n\n#### Request Parameters\n\n- **id** (path parameter): The unique identifier of the product to be deleted. In this example, the product ID is `11`.\n    \n\n#### Response\n\nThe response from this endpoint will indicate the success or failure of the deletion operation.\n\n- **Status Code**:\n    \n    - `204 No Content`: Indicates that the product was successfully deleted.\n        \n    - `404 Not Found`: Indicates that the product with the specified ID does not exist.\n        \n\n#### Response Structure\n\nIn case of an error, the response will return a JSON object with the following structure:\n\n``` json\n{\n    \"type\": \"\",\n    \"title\": \"\",\n    \"status\": 0,\n    \"traceId\": \"\"\n}\n\n ```\n\n- **type**: A string indicating the type of error.\n    \n- **title**: A string providing a short description of the error.\n    \n- **status**: An integer representing the HTTP status code.\n    \n- **traceId**: A string for tracing the request in logs.\n    \n\n#### Important Notes\n\n- Ensure that the product ID provided in the URL is valid and corresponds to an existing product in the database. If the ID does not match any product, a `404 Not Found` response will be returned.\n    \n- This operation is irreversible; once a product is deleted, it cannot be recovered."
+          },
+          "response": []
         }
-      }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "ApiHealth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5012/api/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5012",
+              "path": [
+                "api",
+                "health"
+              ]
+            },
+            "description": "# Health Check API\n\nThis endpoint is used to perform a health check on the API service. It allows clients to verify if the service is operational and responding as expected.\n\n## Request\n\n### Method\n\n`GET`\n\n### URL\n\n`http://localhost:5012/api/health`\n\n### Headers\n\n- **Authorization**: (optional) If required, include a valid token for authentication.\n    \n\n## Response\n\n### Structure\n\nThe response will typically include the following fields:\n\n- **status**: A string indicating the health status of the service (e.g., \"healthy\", \"unhealthy\").\n    \n- **timestamp**: A string representing the time at which the health check was performed.\n    \n\n### Example Response\n\n``` json\n{\n  \"status\": \"healthy\",\n  \"timestamp\": \"2023-10-01T12:00:00Z\"\n}\n\n ```\n\n## Important Notes\n\n- Ensure that the correct headers are included in the request if authentication is required.\n    \n- This endpoint does not require any input parameters."
+          },
+          "response": []
+        }
+      ]
     }
   ]
 }

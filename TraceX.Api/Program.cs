@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 using TraceX.Api.Exceptions;
-using TraceX.Application.Validators;
+using TraceX.Application.Validators.Machines;
 using TraceX.Domain.Interfaces;
 using TraceX.Infrastructure.Data;
 using TraceX.Infrastructure.Repositories;
@@ -25,6 +25,7 @@ builder.Services.AddDbContext<TraceXDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TraceXDbConnection")));
 
 builder.Services.AddScoped<IMachineRepository, MachineRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
