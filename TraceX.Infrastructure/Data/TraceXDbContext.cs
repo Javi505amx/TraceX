@@ -17,6 +17,8 @@ namespace TraceX.Infrastructure.Data
         public DbSet<Machine> Machines => Set<Machine>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
+
 
 
 

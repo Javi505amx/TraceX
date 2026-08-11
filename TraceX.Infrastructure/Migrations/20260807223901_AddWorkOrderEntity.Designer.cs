@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TraceX.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using TraceX.Infrastructure.Data;
 namespace TraceX.Infrastructure.Migrations
 {
     [DbContext(typeof(TraceXDbContext))]
-    partial class TraceXDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260807223901_AddWorkOrderEntity")]
+    partial class AddWorkOrderEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

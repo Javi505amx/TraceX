@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.AccessControl;
 using TraceX.Application.DTOs.Products;
 using TraceX.Domain.Entities;
 using TraceX.Domain.Interfaces;
@@ -91,7 +90,7 @@ namespace TraceX.Api.Controllers
         public async Task<ActionResult> DeleteProduct(int id)
         {
             var existingProduct = await _productRepository.GetByIdAsync(id);
-            if (existingProduct == null)  return NotFound();
+            if (existingProduct == null) return NotFound();
 
             await _productRepository.DeleteAsync(id);
             return NoContent();

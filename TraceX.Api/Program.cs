@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 using TraceX.Api.Exceptions;
+using TraceX.Api.Middlewares;
 using TraceX.Application.Validators.Machines;
 using TraceX.Domain.Interfaces;
 using TraceX.Infrastructure.Data;
@@ -26,6 +27,9 @@ builder.Services.AddDbContext<TraceXDbContext>(options =>
 
 builder.Services.AddScoped<IMachineRepository, MachineRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
+
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -33,6 +37,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateMachineDtoValidator>(
 
 var app = builder.Build();
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

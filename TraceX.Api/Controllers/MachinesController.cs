@@ -41,7 +41,7 @@ namespace TraceX.Api.Controllers
         }
 
         [HttpGet] // GET: api/machines
-        public async Task<ActionResult<List<MachineDto>>> GetMachines()
+        public async Task<ActionResult<List<MachineDto>>> GetMachines(CancellationToken cancellationToken)
         {
             var machines = await _machineRepository.GetAllAsync();
             var machineDtos = machines.Adapt<List<MachineDto>>();
@@ -49,16 +49,13 @@ namespace TraceX.Api.Controllers
         }
 
         // Este mapa le dice a la API: "Si mandan un GET a /api/machines/{id}, ejecuta esto"
-        [HttpGet("{id:int}")] // GET: api/machines/1
-        // "Si me mandan un texto como /api/machines/abc, ni te molestes en entrar a este método; esa no es una ruta válida"
-        public async Task<ActionResult<MachineDto>> GetMachineById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<MachineDto>> GetMachineById(int id, CancellationToken cancellationToken)
         {
-            var machine = await _machineRepository.GetByIdAsync(id);
+            var machine = await _machineRepository.GetByIdAsync(id, cancellationToken);
             if (machine == null) return NotFound();
 
-            var machineDto = machine.Adapt<MachineDto>();
-
-            return Ok(machineDto);
+            return Ok(machine.Adapt<MachineDto>());
         }
 
         [HttpPost] // POST: api/machines
@@ -86,7 +83,7 @@ namespace TraceX.Api.Controllers
         }
 
         [HttpPut("{id:int}")] // PUT: api/machines/1
-        public async Task<ActionResult> UpdateMachine(int id, UpdateMachineDto dto)
+        public async Task<ActionResult> UpdateMachine(int id, UpdateMachineDto dto, CancellationToken cancellationToken)
         {
             try
             {
@@ -96,7 +93,7 @@ namespace TraceX.Api.Controllers
                 var validationResult = await _updateValidator.ValidateAsync(dto);
                 if (!validationResult.IsValid) return BadRequest(validationResult.ToDictionary());
 
-                var existingMachine = await _machineRepository.GetByIdAsync(id);
+                var existingMachine = await _machineRepository.GetByIdAsync(id, cancellationToken);
                 if (existingMachine == null) return NotFound();
 
                 dto.Adapt(existingMachine);
@@ -108,17 +105,16 @@ namespace TraceX.Api.Controllers
             {
                 return Conflict(new
                 {
-                    message = "El registro fue modificado por otro usuario o proceso. Por favor, recarga los datos e intenta de nuevo. "
-                    // TODO: translate this message Exception to english
+                    message = "Registry was updated by another user. Please, Refresh data and try again... "
                 });
             }
 
         }
 
         [HttpDelete("{id:int}")] // DELETE: api/machines/1
-        public async Task<ActionResult> DeleteMachine(int id)
+        public async Task<ActionResult> DeleteMachine(int id, CancellationToken cancellationToken)
         {
-            var existingMachine = await _machineRepository.GetByIdAsync(id);
+            var existingMachine = await _machineRepository.GetByIdAsync(id, cancellationToken);
             if (existingMachine == null) return NotFound();
 
             await _machineRepository.DeleteAsync(id);
